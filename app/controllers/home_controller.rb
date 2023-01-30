@@ -5,10 +5,14 @@ class HomeController < ApplicationController
     if params[:ticker] == ""
       @nothing = "You have to enter a symbol"
     elsif params[:ticker]
-   @stock = StockQuote::Stock.quote(params[:ticker])
+      @stock = StockQuote::Stock.quote(params[:ticker])
+    
     end
+    rescue RuntimeError
+    @error = 'This stock does not exist. Please try something else'
+ end
  end
 
   def about
   end
-end
+

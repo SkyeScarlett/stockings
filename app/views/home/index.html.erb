@@ -8,9 +8,18 @@
 <br/>
 
 <% if @stock %>
-	<%= @stock.inspect %><br/>
 	<%= @stock.company_name %><br/>
 	$<%= @stock.latest_price %><br/>
 <% elsif @nothing %>
 	<%= @nothing %>
+
 <% end %>
+
+<% if @error %>
+ <%= @error %>
+ <% end %>
+
+
+
+
+
