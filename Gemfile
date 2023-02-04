@@ -30,6 +30,10 @@ gem "bootsnap", require: false
 gem "stock_quote", '~> 3.0.0'
 
 gem 'devise', '~> 4.8', '>= 4.8.1'
+
+gem 'turbo-rails'
+
+
 group :development, :test do
  
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
