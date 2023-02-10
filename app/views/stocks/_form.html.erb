@@ -17,13 +17,8 @@
   </div>
 
   <div>
-    <%= form.label :string, style: "display: block" %>
-    <%= form.text_field :string %>
-  </div>
-
-  <div>
-    <%= form.label :user_id, style: "display: block" %>
-    <%= form.number_field :user_id %>
+    <% form.label :user_id, style: "display: block" %>
+    <%= form.number_field :user_id, id: :stock_user_id, value:current_user.id, type: :hidden %>
   </div>
 
   <div>
