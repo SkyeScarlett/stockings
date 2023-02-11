@@ -3,9 +3,14 @@ class StocksController < ApplicationController
   before_action :correct_user, only: [:edit, :update, :destroy]
   before_action :authenticate_user!
 
+  helper_method :get_stock_data
+
+  EMPTY_TICKER = OpenStruct.new(company_name: 'N/A', symbol: 'N/A', latest_price: 'N/A', market_cap: 'N/A')
+
   # GET /stocks or /stocks.json
   def index
-    @stocks = Stock.all
+    @api = StockQuote::Stock.new(api_key: 'pk_a853121062e34d0ca1a5c057a2f8165d')
+    @stocks = Stock.where(user_id: current_user.id)
   end
 
   # GET /stocks/1 or /stocks/1.json
@@ -64,15 +69,20 @@ class StocksController < ApplicationController
     redirect_to stocks_path, notice: "Not Authorized to edit this stock" if @ticker.nil?
   end
 
+  def get_stock_data(stock)
+    StockQuote::Stock.quote(stock.ticker) || EMPTY_TICKER
+  rescue RuntimeError
+    EMPTY_TICKER
+  end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_stock
-      @stock = Stock.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_stock
+    @stock = Stock.find(params[:id])
+  end
 
-    # Only allow a list of trusted parameters through.
-    def stock_params
-      params.require(:stock).permit(:ticker, :string, :user_id)
-    end
+  # Only allow a list of trusted parameters through.
+  def stock_params
+    params.require(:stock).permit(:ticker, :string, :user_id)
+  end
 end

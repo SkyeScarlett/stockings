@@ -13,39 +13,18 @@
 
   <tbody>
     <% @stocks.each do |stock| %>
+      <% ticker = get_stock_data(stock) %>
+      <tr>
+        <td><%= link_to ticker.company_name, stock %></td>
+        <td><%= ticker.symbol %></td>
+        <td>$<%= number_with_precision(ticker.latest_price, :precision => 2, :delimiter => ',') %></td>
 
-    <% if stock.user_id == current_user.id %>
-     <% @api = StockQuote::Stock.new(api_key: 'pk_a853121062e34d0ca1a5c057a2f8165d') %>
-      <% @ticker = StockQuote::Stock.quote(stock.ticker) %>
-   
-    <% Rails.logger.info(params[:ticker]) %>
- 
-
-          
-
-      <% if !@ticker %>
-               <% @ticker.company_name = 'N/A' %>
-        <% @ticker.symbol = 'N/A' %>
-        <% @ticker.latest_price = 'N/A' %>
-        <% @ticker.market cap = 'N/A' %>
-      <% else %>
-    <tr>
-       <td><%= link_to @ticker.company_name, stock %></td>
-      <td><%= @ticker.symbol %></td>
-      <td>$<%= number_with_precision(@ticker.latest_price, :precision => 2, :delimiter => ',') %></td>
-            
-            <td>$<%= number_with_precision(@ticker.market_cap, :precision => 2, :delimiter => ',') %></td>
-            <td><center><%= link_to 'Edit', edit_stock_path(stock) %></center>
-      </td>
-      <td><center><%= link_to 'Delete', stock, method: :delete, data: {confirm: 'Are you sure?'} %></center></td>
-    </tr>
+              <td>$<%= number_with_precision(ticker.market_cap, :precision => 2, :delimiter => ',') %></td>
+              <td><center><%= link_to 'Edit', edit_stock_path(stock) %></center>
+        </td>
+        <td><center><%= link_to 'Delete', stock, method: :delete, data: {confirm: 'Are you sure?'} %></center></td>
+      </tr>
     <% end %>
-     <% end %>
-      <% end %>
-
-
-    
-  
   </tbody>
 </table>
 
